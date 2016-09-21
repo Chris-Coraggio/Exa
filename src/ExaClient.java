@@ -113,7 +113,7 @@ public class ExaClient extends javax.swing.JFrame {
 		for (int i = 0; i < serverMap.size(); i++) {
 			foundEntity = false;
 			for (int j = 0; j < localMap.size(); j++) {
-				if (serverMap.get(i).entityEquals(localMap.get(j))) {
+				if (serverMap.get(i).isEquivalentTo(localMap.get(j))) {
 					localMap.get(j).setResultant(serverMap.get(i).getResultant());
 					localMap.get(j).setDifference(new Point2D.Double(localMap.get(j).getLocation().x - serverMap.get(i).getLocation().x, localMap.get(j).getLocation().y - serverMap.get(i).getLocation().y));
 					localMap.get(j).setAngleDifference(localMap.get(j).getEntityAngle() - serverMap.get(i).getEntityAngle());
@@ -138,7 +138,7 @@ public class ExaClient extends javax.swing.JFrame {
 		for (int i = 0; i < serverMap.size(); i++) {
 			
 			for (int j = 0; j < localMap.size(); j++) {
-				if (serverMap.get(i).entityEquals(localMap.get(j))) {
+				if (serverMap.get(i).isEquivalentTo(localMap.get(j))) {
 					localMap.get(j).setDifference(new Point2D.Double(localMap.get(j).getLocation().x - serverMap.get(i).getLocation().x, localMap.get(j).getLocation().y - serverMap.get(i).getLocation().y));
 					localMap.get(j).setAngleDifference(localMap.get(j).getEntityAngle() - serverMap.get(i).getEntityAngle());
 				}
@@ -172,7 +172,7 @@ public class ExaClient extends javax.swing.JFrame {
 			//g2D.drawImage(getImageSelection(), 0, 0, null);
 			for (int i = 0; i < localMap.size(); i++) {
 				Entity theEntity = localMap.get(i);
-				if (playerShip.entityEquals(theEntity)) {
+				if (playerShip.isEquivalentTo(theEntity)) {
 					// playerShip = theEntity.copy();
 					System.out.println("Drawing playership");
 					g2D.drawImage(playerShip.getImage(), WINDOW_Y / 2 - playerShip.getImageHeight()/2, WINDOW_X / 2 - playerShip.getImageWidth()/2, null);

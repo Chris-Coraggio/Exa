@@ -1,221 +1,152 @@
-import java.awt.Window;
+import javax.swing.*;
 
-import javax.swing.BoundedRangeModel;
-import javax.swing.DefaultBoundedRangeModel;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+/*
+ * Upgrade GUI
+ * 
+ * This class generates a GUI by which players initially modify their stats based on how many points they have to work with
+ * Created with NetBeans GUI builder
+ * 
+ * Properties to modify:
+ * Health
+ * Weapons
+ * Shields
+ * Speed
+ */
 
 
-public class UpgradeGUI extends javax.swing.JDialog{
+public class UpgradeGUI extends JDialog{
 	
 	private final int TOTAL_POINTS = 200;
 	private JSlider[] sliders;
 	private JLabel[] labels;
 	private JSlider moving = new JSlider();
 	private boolean isFinished;
+	
+    private JButton continueButton;
+    private JLabel titleLabel;
+    
+    private JLabel pointsRemainingLabel;
+    private JLabel realTimePointsRemainingLabel;
+    
+    private JLabel healthDescLabel;
+    private JLabel weaponsDescLabel;
+    private JLabel shieldsDescLabel;
+    private JLabel speedDescLabel;
+    
+    private JLabel healthLabel;
+    private JLabel weaponsLabel;
+    private JLabel shieldsLabel;
+    private JLabel speedLabel;
+    
+    private JLabel realTimeShieldsLabel;
+    private JLabel realTimeHealthLabel;
+    private JLabel realTimeWeaponsLabel;
+    private JLabel realTimeSpeedLabel;
+    
+    private JSlider healthSlider;
+    private JSlider weaponsSlider;
+    private JSlider shieldsSlider;
+    private JSlider speedSlider; 
 
 	    public UpgradeGUI() {
 	        initComponents();
 	        isFinished = false;
 	        this.setVisible(true);
 	        while(! isFinished()){
-	        	if(! isFinished())checkSliders();
+	        	if(! isFinished()) checkSliders();
 	        	else break;
 	        }
 	    }
 	               
 	    private void initComponents() {
 	    	
-	        jSlider1 = new javax.swing.JSlider();
-	        jSlider2 = new javax.swing.JSlider();
-	        jSlider3 = new javax.swing.JSlider();
-	        jSlider4 = new javax.swing.JSlider();
+	        healthSlider = new JSlider();
+	        weaponsSlider = new JSlider();
+	        shieldsSlider = new JSlider();
+	        speedSlider = new JSlider();
 	        
-	        jSlider1.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
-	        jSlider2.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
-	        jSlider3.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
-	        jSlider4.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
+	        healthSlider.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
+	        weaponsSlider.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
+	        shieldsSlider.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
+	        speedSlider.setModel(new DefaultBoundedRangeModel(0, 0, 0, 100));
 	        
-	        jLabel1 = new javax.swing.JLabel();
-	        jLabel2 = new javax.swing.JLabel();
-	        jLabel3 = new javax.swing.JLabel();
-	        jLabel4 = new javax.swing.JLabel();
-	        jLabel5 = new javax.swing.JLabel();
-	        jLabel6 = new javax.swing.JLabel();
-	        jLabel7 = new javax.swing.JLabel();
-	        jLabel8 = new javax.swing.JLabel();
-	        jLabel9 = new javax.swing.JLabel();
-	        jLabel10 = new javax.swing.JLabel();
-	        jLabel11 = new javax.swing.JLabel();
-	        jLabel12 = new javax.swing.JLabel();
-	        jLabel13 = new javax.swing.JLabel();
-	        jLabel14 = new javax.swing.JLabel();
-	        jLabel15 = new javax.swing.JLabel();
-	        jButton1 = new javax.swing.JButton();
+	        titleLabel = new JLabel();
+	        healthLabel = new JLabel();
+	        weaponsLabel = new JLabel();
+	        shieldsLabel = new JLabel();
+	        speedLabel = new JLabel();
 	        
-	        initStuff();
+	        realTimeHealthLabel = new JLabel();
+	        realTimeWeaponsLabel = new JLabel();
+	        realTimeShieldsLabel = new JLabel();
+	        realTimeSpeedLabel = new JLabel();
+	        
+	        pointsRemainingLabel = new JLabel();
+	        realTimePointsRemainingLabel = new JLabel();
+	        
+	        healthDescLabel = new JLabel();
+	        weaponsDescLabel = new JLabel();
+	        shieldsDescLabel = new JLabel();
+	        speedDescLabel = new JLabel();
+	        
+	        continueButton = new JButton();
+	        
+	        initSlidersAndLabels();
 
-	        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+	        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-	        jLabel1.setFont(new java.awt.Font("Bauhaus 93", 1, 24)); // NOI18N
-	        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-	        jLabel1.setText("EXA Upgrader - Choose how to distribute your points to customize your own ship");
-	        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+	        titleLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 24));
+	        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	        titleLabel.setText("EXA Upgrader - Choose how to distribute your points to customize your own ship");
+	        titleLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 
-	        jLabel2.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel2.setText("Health:");
+	        healthLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        healthLabel.setText("Health:");
 
-	        jLabel3.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel3.setText("Weapons:");
+	        weaponsLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        weaponsLabel.setText("Weapons:");
 
-	        jLabel4.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel4.setText("Shields:");
+	        shieldsLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        shieldsLabel.setText("Shields:");
 
-	        jLabel5.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel5.setText("Speed:");
+	        speedLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        speedLabel.setText("Speed:");
 
-	        jLabel6.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	        realTimeShieldsLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        realTimeShieldsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-	        jLabel7.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	        realTimeHealthLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        realTimeHealthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-	        jLabel8.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	        realTimeWeaponsLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        realTimeWeaponsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-	        jLabel9.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	        realTimeSpeedLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        realTimeSpeedLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-	        jLabel10.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel10.setText("Points Remaining:");
+	        pointsRemainingLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        pointsRemainingLabel.setText("Points Remaining:");
 
-	        jLabel11.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); // NOI18N
-	        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-	        jLabel11.setText("" + TOTAL_POINTS);
+	        realTimePointsRemainingLabel.setFont(new java.awt.Font("Bauhaus 93", 1, 18)); 
+	        realTimePointsRemainingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	        realTimePointsRemainingLabel.setText("" + TOTAL_POINTS);
 
-	        jLabel12.setText("The raw ability of your ship to take damage");
+	        healthDescLabel.setText("The raw ability of your ship to take damage");
+	        weaponsDescLabel.setText("The ability of your ship to regenerate after taking damage");
+	        shieldsDescLabel.setText("The damage your ship's bullets inflict on other ships");
+	        speedDescLabel.setText("How fast your ship can potentially go");
 
-	        jLabel13.setText("The ability of your ship to regenerate after taking damage");
-
-	        jLabel14.setText("The damage your ship's bulltets inflict on other ships");
-
-	        jLabel15.setText("How fast your ship can potentially go");
-
-	        jButton1.setLabel("Continue to Game");
-	        jButton1.addActionListener(new java.awt.event.ActionListener() {
+	        continueButton.setLabel("Continue to Game");
+	        continueButton.addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
-	                jButton1ActionPerformed(evt);
+	                continueButtonPressed(evt);
 	            }
 	        });
+	        
+	        createGUI(); //calls GUI builder junk
+	    }
 
-	        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-	        getContentPane().setLayout(layout);
-	        layout.setHorizontalGroup(
-	            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	            .addGroup(layout.createSequentialGroup()
-	                .addContainerGap()
-	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	                    .addGroup(layout.createSequentialGroup()
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                            .addGroup(layout.createSequentialGroup()
-	                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-	                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                .addGap(18, 18, 18)
-	                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                .addGap(18, 18, 18)
-	                                .addComponent(jLabel12))
-	                            .addGroup(layout.createSequentialGroup()
-	                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-	                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                                    .addGroup(layout.createSequentialGroup()
-	                                        .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                        .addGap(18, 18, 18)
-	                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                        .addGap(18, 18, 18)
-	                                        .addComponent(jLabel14))
-	                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-	                                        .addGroup(layout.createSequentialGroup()
-	                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-	                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                                .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                                            .addGap(18, 18, 18)
-	                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                                                .addGroup(layout.createSequentialGroup()
-	                                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                                    .addGap(18, 18, 18)
-	                                                    .addComponent(jLabel15))
-	                                                .addGroup(layout.createSequentialGroup()
-	                                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	                                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                                    .addGap(0, 0, Short.MAX_VALUE))))
-	                                        .addGroup(layout.createSequentialGroup()
-	                                            .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                            .addGap(18, 18, 18)
-	                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                            .addGap(18, 18, 18)
-	                                            .addComponent(jLabel13))))))
-	                        .addContainerGap(16, Short.MAX_VALUE))))
-	        );
-	        layout.setVerticalGroup(
-	            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	            .addGroup(layout.createSequentialGroup()
-	                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                    .addComponent(jLabel2)
-	                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                        .addComponent(jLabel7)
-	                        .addComponent(jLabel12))
-	                    .addComponent(jSlider1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                .addGap(18, 18, 18)
-	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-	                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                        .addComponent(jLabel6)
-	                        .addComponent(jLabel14))
-	                    .addGroup(layout.createSequentialGroup()
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-	                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-	                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-	                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                        .addComponent(jLabel13))
-	                                    .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	                            .addGroup(layout.createSequentialGroup()
-	                                .addComponent(jLabel4)
-	                                .addGap(18, 18, 18)))
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                            .addComponent(jSlider3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))))
-	                .addGap(18, 18, 18)
-	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                        .addComponent(jLabel9)
-	                        .addComponent(jLabel15))
-	                    .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                    .addComponent(jLabel5))
-	                .addGap(18, 18, 18)
-	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                    .addComponent(jLabel10)
-	                    .addComponent(jLabel11)
-	                    .addComponent(jButton1))
-	                .addContainerGap(14, Short.MAX_VALUE))
-	        );
-
-	        pack();
-	    }// </editor-fold>                        
-
-	    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+	    private void continueButtonPressed(java.awt.event.ActionEvent evt) {                                         
 	        //Continue to Game
 	    	isFinished = true;
 	    	this.dispose();
@@ -233,17 +164,17 @@ public class UpgradeGUI extends javax.swing.JDialog{
 	    	return nums;
 	    }
 	    
-	    private void initStuff(){
+	    private void initSlidersAndLabels(){
 	    	sliders = new JSlider[4];
-	    	sliders[0] = jSlider1;
-	    	sliders[1] = jSlider2;
-	    	sliders[2] = jSlider3;
-	    	sliders[3] = jSlider4;
+	    	sliders[0] = healthSlider;
+	    	sliders[1] = weaponsSlider;
+	    	sliders[2] = shieldsSlider;
+	    	sliders[3] = speedSlider;
 	    	labels = new JLabel[4];
-	    	labels[0] = jLabel7;
-	    	labels[1] = jLabel8;
-	    	labels[2] = jLabel6;
-	    	labels[3] = jLabel9;
+	    	labels[0] = realTimeHealthLabel;
+	    	labels[1] = realTimeWeaponsLabel;
+	    	labels[2] = realTimeShieldsLabel;
+	    	labels[3] = realTimeSpeedLabel;
 	    	for(JLabel j : labels) j.setText("0");
 	    }
 	    
@@ -263,10 +194,10 @@ public class UpgradeGUI extends javax.swing.JDialog{
 	    			if(TOTAL_POINTS < total){
 	    				j.setValue(TOTAL_POINTS - totalWithoutMovingOne);
 	    				getLabel(j).setText("" + (TOTAL_POINTS - totalWithoutMovingOne));
-	    				jLabel11.setText("0");
+	    				realTimePointsRemainingLabel.setText("0");
 	    			}else{
 	    				getLabel(j).setText("" + j.getValue());
-	    				jLabel11.setText("" + (TOTAL_POINTS - total));
+	    				realTimePointsRemainingLabel.setText("" + (TOTAL_POINTS - total));
 	    			}
 	    			moving = new JSlider();
 	    		}
@@ -280,27 +211,108 @@ public class UpgradeGUI extends javax.swing.JDialog{
 	    	}
 	    	return null;
 	    }
-
-	    // Variables declaration - do not modify                     
-	    private javax.swing.JButton jButton1;
-	    private javax.swing.JLabel jLabel1;
-	    private javax.swing.JLabel jLabel10;
-	    private javax.swing.JLabel jLabel11;
-	    private javax.swing.JLabel jLabel12;
-	    private javax.swing.JLabel jLabel13;
-	    private javax.swing.JLabel jLabel14;
-	    private javax.swing.JLabel jLabel15;
-	    private javax.swing.JLabel jLabel2;
-	    private javax.swing.JLabel jLabel3;
-	    private javax.swing.JLabel jLabel4;
-	    private javax.swing.JLabel jLabel5;
-	    private javax.swing.JLabel jLabel6;
-	    private javax.swing.JLabel jLabel7;
-	    private javax.swing.JLabel jLabel8;
-	    private javax.swing.JLabel jLabel9;
-	    private javax.swing.JSlider jSlider1;
-	    private javax.swing.JSlider jSlider2;
-	    private javax.swing.JSlider jSlider3;
-	    private javax.swing.JSlider jSlider4;
-	    // End of variables declaration                   
+	    
+	    private void createGUI(){
+	    	GroupLayout layout = new GroupLayout(getContentPane());
+	        getContentPane().setLayout(layout);
+	        layout.setHorizontalGroup(
+	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	            .addGroup(layout.createSequentialGroup()
+	                .addContainerGap()
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    .addComponent(titleLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	                    .addGroup(layout.createSequentialGroup()
+	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                            .addGroup(layout.createSequentialGroup()
+	                                .addComponent(healthLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+	                                .addComponent(healthSlider, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
+	                                .addGap(18, 18, 18)
+	                                .addComponent(realTimeHealthLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                .addGap(18, 18, 18)
+	                                .addComponent(healthDescLabel))
+	                            .addGroup(layout.createSequentialGroup()
+	                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                                    .addComponent(weaponsLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                    .addComponent(speedLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                    .addComponent(shieldsLabel, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+	                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+	                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                                    .addGroup(layout.createSequentialGroup()
+	                                        .addComponent(shieldsSlider, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
+	                                        .addGap(18, 18, 18)
+	                                        .addComponent(realTimeShieldsLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                        .addGap(18, 18, 18)
+	                                        .addComponent(shieldsDescLabel))
+	                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+	                                        .addGroup(layout.createSequentialGroup()
+	                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+	                                                .addComponent(pointsRemainingLabel, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
+	                                                .addComponent(speedSlider, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE))
+	                                            .addGap(18, 18, 18)
+	                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                                                .addGroup(layout.createSequentialGroup()
+	                                                    .addComponent(realTimeSpeedLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                                    .addGap(18, 18, 18)
+	                                                    .addComponent(speedDescLabel))
+	                                                .addGroup(layout.createSequentialGroup()
+	                                                    .addComponent(realTimePointsRemainingLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	                                                    .addComponent(continueButton, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+	                                                    .addGap(0, 0, Short.MAX_VALUE))))
+	                                        .addGroup(layout.createSequentialGroup()
+	                                            .addComponent(weaponsSlider, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
+	                                            .addGap(18, 18, 18)
+	                                            .addComponent(realTimeWeaponsLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+	                                            .addGap(18, 18, 18)
+	                                            .addComponent(weaponsDescLabel))))))
+	                        .addContainerGap(16, Short.MAX_VALUE))))
+	        );
+	        layout.setVerticalGroup(
+	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	            .addGroup(layout.createSequentialGroup()
+	                .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+	                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    .addComponent(healthLabel)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                        .addComponent(realTimeHealthLabel)
+	                        .addComponent(healthDescLabel))
+	                    .addComponent(healthSlider, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	                .addGap(18, 18, 18)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                        .addComponent(realTimeShieldsLabel)
+	                        .addComponent(shieldsDescLabel))
+	                    .addGroup(layout.createSequentialGroup()
+	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+	                            .addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+	                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+	                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                                        .addComponent(realTimeWeaponsLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+	                                        .addComponent(weaponsDescLabel))
+	                                    .addComponent(weaponsSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	                            .addGroup(layout.createSequentialGroup()
+	                                .addComponent(shieldsLabel)
+	                                .addGap(18, 18, 18)))
+	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                            .addComponent(shieldsSlider, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	                            .addComponent(weaponsLabel, GroupLayout.Alignment.TRAILING))))
+	                .addGap(18, 18, 18)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                        .addComponent(realTimeSpeedLabel)
+	                        .addComponent(speedDescLabel))
+	                    .addComponent(speedSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	                    .addComponent(speedLabel))
+	                .addGap(18, 18, 18)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    .addComponent(pointsRemainingLabel)
+	                    .addComponent(realTimePointsRemainingLabel)
+	                    .addComponent(continueButton))
+	                .addContainerGap(14, Short.MAX_VALUE))
+	        );
+	        pack();
+	    }// end createGUI                   
 	}
