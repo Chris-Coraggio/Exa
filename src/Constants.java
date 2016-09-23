@@ -3,8 +3,9 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
-/*
- * This class includes methods and variables that are constant and unchanging, and do not fit well in any one class of the program
+/**
+ * This class includes methods and variables that are constant
+ * and do not fit well in any one class of the program
  * Including math operators, and other static methods needed in multiple classes
  */
 public class Constants {
@@ -20,16 +21,17 @@ public class Constants {
 	 */
 	
 	public static void initializeImages(){
+		String home = System.getProperty("üser.home");
 		
 		try{
-		images[0] = ImageIO.read(new File(System.getProperty("user.home") + "/Desktop/Exa/background.png"));
+		images[0] = ImageIO.read(new File(home + "/Desktop/Exa/background.png"));
 		System.out.println("got here");
-		images[1] = ImageIO.read(new File((System.getProperty("user.home") + "/Desktop/Exa/Qufeb.png")));
-		images[2] = ImageIO.read(new File((System.getProperty("user.home") + "/Desktop/Exa/bigBoii.png")));
-		images[3] = ImageIO.read(new File((System.getProperty("user.home") + "/Desktop/Exa/Cepily.png")));
-		images[4] = ImageIO.read(new File((System.getProperty("user.home") + "/Desktop/Exa/Zax.png")));
-		images[5] = ImageIO.read(new File((System.getProperty("user.home") + "/Desktop/Exa/Skimo.png")));
-		}catch(Exception e){
+		images[1] = ImageIO.read(new File((home + "/Desktop/Exa/Qufeb.png")));
+		images[2] = ImageIO.read(new File((home + "/Desktop/Exa/bigBoii.png")));
+		images[3] = ImageIO.read(new File((home + "/Desktop/Exa/Cepily.png")));
+		images[4] = ImageIO.read(new File((home + "/Desktop/Exa/Zax.png")));
+		images[5] = ImageIO.read(new File((home + "/Desktop/Exa/Skimo.png")));
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 		
@@ -51,7 +53,7 @@ public class Constants {
 	}
 	public static ArrayList<Message> entityToMessage(java.util.List<Entity> list){
 		ArrayList<Message> retrn = new ArrayList<>();
-		for(int i = 0; i < list.size(); i ++){
+		for (int i = 0; i < list.size(); i++) {
 			retrn.add(Message.getNewMessage(list.get(i)));
 		}
 		return retrn;
@@ -59,7 +61,7 @@ public class Constants {
 	
 	public static ArrayList<Entity> messageToEntity(ArrayList<Message> list){
 		ArrayList<Entity> retrn = new ArrayList<>();
-		for(int i = 0; i < list.size(); i ++){
+		for (int i = 0; i < list.size(); i++) {
 			retrn.add(Entity.getNewEntity(list.get(i)));
 		}
 		return retrn;

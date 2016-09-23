@@ -11,14 +11,11 @@ import java.util.Set;
 import java.util.HashSet;
 
 
-/*
- * ExaServer
- * 
+/**
  * This class provides the backbone of the game,
  * processing requests from different players
  * 
  */
-
 public class ExaServer {
 
   static int updateCount = 0;

@@ -20,28 +20,28 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ExaClient extends javax.swing.JFrame {
-	static int updateCount = 0;
-	static int inputCount = 0;
-	static int ID;
-	static ExaClient client;
-	static ArrayList<Entity> localMap = new ArrayList<>();
-	static ArrayList<Entity> serverMap = new ArrayList<>();
-	static final String ADDRESS = "localhost";
-	static final int PORT = 8520;
-	static final int WINDOW_X = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-	static final int WINDOW_Y = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-	public boolean upHeld, downHeld, rightHeld, leftHeld;
-	private static final long serialVersionUID = 1L;
-	java.util.List<Integer> pressed = new java.util.ArrayList<Integer>();
-	static Spaceship playerShip;
-	final double MULT = .05;
-	Container pane;
-	Screen paint;
-	ArrayList<Point> points = new ArrayList<>();
-	static Socket socket;
-	static ObjectInputStream in;
-	static ObjectOutputStream out;
-	static BufferedImage background;
+  static int updateCount = 0;
+  static int inputCount = 0;
+  static int ID;
+  static ExaClient client;
+  static ArrayList<Entity> localMap = new ArrayList<>();
+  static ArrayList<Entity> serverMap = new ArrayList<>();
+  static final String ADDRESS = "localhost";
+  static final int PORT = 8520;
+  static final int WINDOW_X = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+  static final int WINDOW_Y = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+  public boolean upHeld, downHeld, rightHeld, leftHeld;
+  private static final long serialVersionUID = 1L;
+  java.util.List<Integer> pressed = new java.util.ArrayList<Integer>();
+  static Spaceship playerShip;
+  final double MULT = .05;
+  Container pane;
+  Screen paint;
+  ArrayList<Point> points = new ArrayList<>();
+  static Socket socket;
+  static ObjectInputStream in;
+  static ObjectOutputStream out;
+  static BufferedImage background;
 
 	public ExaClient(Spaceship e) {
 		this();
@@ -57,7 +57,8 @@ public class ExaClient extends javax.swing.JFrame {
 	}
 
 	private static String getServerAddress() {
-		return JOptionPane.showInputDialog(client, "Enter IP Address of the Server:", "Welcome to EXA",
+		return JOptionPane.showInputDialog(client,
+				"Enter IP Address of the Server:", "Welcome to EXA",
 				JOptionPane.QUESTION_MESSAGE);
 	}
 
@@ -80,14 +81,20 @@ public class ExaClient extends javax.swing.JFrame {
 		System.out.println("Howdy");
 		UpgradeGUI ug = new UpgradeGUI();
 		System.out.println("Hi");
-		while(! ug.isFinished()){//wait until upgradeGUI is finished
-			if(ug.isFinished()) break;
-			else System.out.println("Still not done");
+		while (!ug.isFinished()) { //wait until upgradeGUI is finished
+			if (ug.isFinished()) {
+				break;
+			} else {
+				System.out.println("Still not done");
+			}
 		}
 		try {
 			Constants.initializeImages();
-			background = ImageIO.read(new File(System.getProperty("user.home") + "/Desktop/Exa/background.png"));
-			(client = new ExaClient(new Spaceship(ug.getNumbers()[0], ug.getNumbers()[1], ug.getNumbers()[2], ug.getNumbers()[3]))).setVisible(true);
+			background = ImageIO.read(new File(System.getProperty("user.home") + 
+					"/Desktop/Exa/background.png"));
+			(client = new ExaClient(new Spaceship(ug.getNumbers()[0],
+					ug.getNumbers()[1], ug.getNumbers()[2],
+					ug.getNumbers()[3]))).setVisible(true);
 			socket = new Socket(getServerAddress(), PORT);
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
@@ -115,8 +122,15 @@ public class ExaClient extends javax.swing.JFrame {
 			for (int j = 0; j < localMap.size(); j++) {
 				if (serverMap.get(i).isEquivalentTo(localMap.get(j))) {
 					localMap.get(j).setResultant(serverMap.get(i).getResultant());
-					localMap.get(j).setDifference(new Point2D.Double(localMap.get(j).getLocation().x - serverMap.get(i).getLocation().x, localMap.get(j).getLocation().y - serverMap.get(i).getLocation().y));
-					localMap.get(j).setAngleDifference(localMap.get(j).getEntityAngle() - serverMap.get(i).getEntityAngle());
+					localMap.get(j).setDifference(
+							new Point2D.Double(
+									localMap.get(j).getLocation().x - serverMap.get(i).getLocation().x,
+									localMap.get(j).getLocation().y - serverMap.get(i).getLocation().y
+									)
+							);
+					localMap.get(j).setAngleDifference(
+							localMap.get(j).getEntityAngle() - serverMap.get(i).getEntityAngle()
+							);
 					localMap.get(j).inSync = false;
 					foundEntity = true;
 				}
@@ -139,8 +153,15 @@ public class ExaClient extends javax.swing.JFrame {
 			
 			for (int j = 0; j < localMap.size(); j++) {
 				if (serverMap.get(i).isEquivalentTo(localMap.get(j))) {
-					localMap.get(j).setDifference(new Point2D.Double(localMap.get(j).getLocation().x - serverMap.get(i).getLocation().x, localMap.get(j).getLocation().y - serverMap.get(i).getLocation().y));
-					localMap.get(j).setAngleDifference(localMap.get(j).getEntityAngle() - serverMap.get(i).getEntityAngle());
+					localMap.get(j).setDifference(
+							new Point2D.Double(
+									localMap.get(j).getLocation().x - serverMap.get(i).getLocation().x,
+									localMap.get(j).getLocation().y - serverMap.get(i).getLocation().y
+									)
+							);
+					localMap.get(j).setAngleDifference(
+							localMap.get(j).getEntityAngle() - serverMap.get(i).getEntityAngle()
+							);
 				}
 			}
 			
@@ -148,11 +169,11 @@ public class ExaClient extends javax.swing.JFrame {
 		playerShip.updateLocation();
 	}
 
-	public ArrayList<Entity> updateMap(ArrayList<Entity> e) {
-		for (int i = 0; i < e.size(); i++) {
-			e.get(i).updateLocation();
+	public ArrayList<Entity> updateMap(ArrayList<Entity> entities) {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).updateLocation();
 		}
-		return e;
+		return entities;
 	}
 
 	private class Screen extends JPanel implements KeyListener {
@@ -166,9 +187,9 @@ public class ExaClient extends javax.swing.JFrame {
 					WINDOW_X, WINDOW_Y);
 			}
 
-		public void paintComponent(Graphics g) {
+		public void paintComponent(Graphics graphics) {
 			updateMap();
-			Graphics2D g2D = (Graphics2D) g.create();
+			Graphics2D g2D = (Graphics2D) graphics.create();
 			//g2D.drawImage(getImageSelection(), 0, 0, null);
 			for (int i = 0; i < localMap.size(); i++) {
 				Entity theEntity = localMap.get(i);
@@ -188,54 +209,59 @@ public class ExaClient extends javax.swing.JFrame {
 		}
 
 		public void listenToKeys() {
-			if (upHeld)
-				playerShip.addForce(new Point2D.Double(-MULT * Math.cos(Math.toRadians(playerShip.getEntityAngle())),
+			if (upHeld){
+				playerShip.addForce(
+						new Point2D.Double(-MULT * Math.cos(Math.toRadians(playerShip.getEntityAngle())),
 						-MULT * Math.sin(Math.toRadians(playerShip.getEntityAngle()))));
-			if (downHeld)
+			}
+			if (downHeld){
 				playerShip.applyBrake(.01);
-			if (leftHeld)
+			}
+			if (leftHeld){
 				playerShip.rotate(-1);
-			if (rightHeld)
+			}
+			if (rightHeld){
 				playerShip.rotate(1);
-
+			}
 		}
 
-		public void keyPressed(KeyEvent e) {
-			int keyCode = e.getKeyCode();
-			if (keyCode == KeyEvent.VK_UP)
+		public void keyPressed(KeyEvent event) {
+			int keyCode = event.getKeyCode();
+			if (keyCode == KeyEvent.VK_UP){
 				upHeld = true;
-			if (keyCode == KeyEvent.VK_DOWN)
+			}
+			if (keyCode == KeyEvent.VK_DOWN){
 				downHeld = true;
-			;
-			if (keyCode == KeyEvent.VK_LEFT)
+			}
+			if (keyCode == KeyEvent.VK_LEFT){
 				leftHeld = true;
-			if (keyCode == KeyEvent.VK_RIGHT)
+			}
+			if (keyCode == KeyEvent.VK_RIGHT){
 				rightHeld = true;
+			}
 		}
 
-		public void keyReleased(KeyEvent e) {
-			int keyCode = e.getKeyCode();
-			if (keyCode == KeyEvent.VK_UP)
+		public void keyReleased(KeyEvent event) {
+			int keyCode = event.getKeyCode();
+			if (keyCode == KeyEvent.VK_UP){
 				upHeld = false;
-			if (keyCode == KeyEvent.VK_DOWN)
+			}
+			if (keyCode == KeyEvent.VK_DOWN){
 				downHeld = false;
-			if (keyCode == KeyEvent.VK_LEFT)
+			}
+			if (keyCode == KeyEvent.VK_LEFT){
 				leftHeld = false;
-			if (keyCode == KeyEvent.VK_RIGHT)
+			}
+			if (keyCode == KeyEvent.VK_RIGHT){
 				rightHeld = false;
-
+			}
 		}
 
-		public void keyTyped(KeyEvent e) {
-
-		}
-
+		public void keyTyped(KeyEvent e) {}
 	}
 
 	private class Talker extends Thread {
-		public Talker() {
-
-		}
+		public Talker() {}
 
 		public void run() {
 			while (true) {
@@ -250,11 +276,11 @@ public class ExaClient extends javax.swing.JFrame {
 				}
 			}
 		}
-
 	}
 
 	private class Repainter extends Thread {
 		ExaClient frame;
+		private int LOCATION_OFFSET = 105;
 
 		public Repainter(ExaClient frame) {
 			this.frame = frame;
@@ -266,12 +292,13 @@ public class ExaClient extends javax.swing.JFrame {
 				frame.repaint();
 				// frame.playerShip.updateLocation();
 				frame.paint.listenToKeys();
-				frame.points.add(new Point((int) frame.playerShip.getYLocation() + 105,
-						(int) frame.playerShip.getXLocation() + 105));
+				frame.points.add(
+						new Point((int) playerShip.getYLocation() + LOCATION_OFFSET,
+						(int) playerShip.getXLocation() + LOCATION_OFFSET));
 				try {
 					Thread.sleep(Constants.Socket.UPDATE_TIME);
 				} catch (InterruptedException e) {
-					// //System.out.println("Thread Interupted");
+					e.printStackTrace();
 				}
 			}
 		}
