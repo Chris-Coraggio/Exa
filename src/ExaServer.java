@@ -4,8 +4,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
@@ -16,7 +19,12 @@ import java.util.HashSet;
  * processing requests from different players
  * 
  */
-public class ExaServer {
+
+interface ServerInterface{
+	  static ServerGUI server = new ServerGUI();
+	  final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+}
+public class ExaServer implements ServerInterface{
 
   static int updateCount = 0;
   static ArrayList<Player> players;
@@ -35,6 +43,8 @@ public class ExaServer {
 		map = Collections.synchronizedList(new ArrayList<Entity>());
 		new Listener().start();
 		new Updater().start();
+		server.setVisible(true);
+		server.appendToOutput("Server started at " + dateFormat.format(new Date()));
 		runGame();
 	}
 
@@ -56,7 +66,7 @@ public class ExaServer {
 		}
 	}
 
-	private class Listener extends Thread {
+	private class Listener extends Thread implements ServerInterface {
 		ServerSocket socket;
 
 		public Listener() {
@@ -70,7 +80,9 @@ public class ExaServer {
 		public void run() {
 			while (true) {
 				try {
-					new Player(socket.accept()).start();
+					Player p = new Player(socket.accept());
+					p.start();
+					server.appendToOutput(String.format("New Player (ID: %s) added at %s", p.getId(), dateFormat.format(new Date())));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -99,10 +111,11 @@ public class ExaServer {
 								
 							}
 						}
-						// System.out.println(((Entity)
-						// (map.get(i))).getResultant());
-						// System.out.println(((Entity)
-						// (map.get(i))).getLocation());
+						server.appendToOutput(
+						String.format("Resultant: %s\tLocation: %s",
+						((Entity) (map.get(i))).getResultant(), 
+						((Entity) (map.get(i))).getLocation()
+						));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
